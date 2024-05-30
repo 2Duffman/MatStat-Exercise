@@ -32,3 +32,7 @@ The p-values are still small but noticably larger than for the first regression
 | X_i3       | 0.1181976 | 0.2927255 |
 
 The true value for beta_3 (0.8) is very far outside this confidence interval. This is because X_i3 is highly correlated (0.5) with X_i4 and when ommiting X_i4 our model will not be able to predict the coefficient of X_i3 correctly. I also think that the confidence interval is too low because beta_4 is negative (-1.2).
+## (e)
+|      X_i1 |      X_i2 |      X_i3|       X_i4|
+|-----------|-----------|----------|-----------|
+|0.02363303 |0.03307854 |0.01811053| 0.01228898| 

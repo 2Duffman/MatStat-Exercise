@@ -3,12 +3,13 @@ library(MASS)
 
 # Set the seed for reproducibility
 set.seed(42)
-
+#set dimension of the data
+n=3000
 # Create X_i,1 with only ones
-X_i1 <- rep(1, 3000)
+X_i1 <- rep(1, n)
 
 # Create X_i,2 from exponential distribution
-X_i2 <- rexp(3000, rate = 2)
+X_i2 <- rexp(n, rate = 2)
 
 # Create X_i,3 and X_i,4 from multivariate normal distribution with mean 0 and variances 1 and 2
 # the covariance matrix looks like:
@@ -16,7 +17,7 @@ X_i2 <- rexp(3000, rate = 2)
 #   0.5  2
 mu <- c(0, 0)  # mean
 Sigma <- matrix(c(1, 0.5, 0.5, 2), nrow = 2)  # covariance matrix
-X_i34 <- mvrnorm(3000, mu, Sigma)
+X_i34 <- mvrnorm(n, mu, Sigma)
 colnames(X_i34) <- c("X_i3", "X_i4")
 
 # Combine all covariates into a matrix
@@ -42,8 +43,8 @@ p_values <- model_summary$coefficients[, "Pr(>|t|)"]
 conf_intervals <- confint(model, level = 0.99)
 
 # Print p-values and confidence intervals
-print(p_values)
-print(conf_intervals)
+#print(p_values)
+#print(conf_intervals)
 
 #task d
 # Subset X to include only the first three columns
@@ -62,3 +63,11 @@ conf_intervals_subset <- confint(model_subset, level = 0.99)
 # Print p-values and confidence intervals
 #print(p_values_subset)
 #print(conf_intervals_subset)
+
+#Calculate the standard errors of the coefficients
+beta_hat <- coef(model)[-2]#beta_hat has an extra column for the intercept so I remove X_i1 so that the dimensions work out
+epsilon_hat <- Y_i-X%*%beta_hat
+sigma_epsilon_sq_hat <- sqrt(sum(epsilon_hat^2)/(n-4))
+sigma_sq_hat <- sigma_epsilon_sq_hat*solve(t(X)%*%X/n)
+std_error <- sqrt(diag(sigma_sq_hat))/sqrt(n)
+print(std_error)
