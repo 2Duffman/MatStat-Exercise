@@ -1,0 +1,7 @@
+# Local R files
+.Rhistory
+.Ruserdata
+.Rproj.user/
+
+# Packages installed locally while working on the exercises
+RLibrary/
